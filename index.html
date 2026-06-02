@@ -6,8 +6,6 @@
   <title>RANX Game Developers | Level Up</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-  <!-- Supabase CDN Link for Real-time database mechanics -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
     
@@ -61,13 +59,19 @@
         <button id="nav-home" onclick="switchTab('home')" class="nav-link text-green-400 border-b-2 border-green-400 pb-1 transition-all">Home</button>
         <button id="nav-tutorials" onclick="switchTab('tutorials')" class="nav-link text-zinc-400 hover:text-white pb-1 transition-all">Tutorials</button>
         <button id="nav-tools" onclick="switchTab('tools')" class="nav-link text-zinc-400 hover:text-white pb-1 transition-all">Tools & Engines</button>
-        <button id="nav-community" onclick="switchTab('community')" class="nav-link text-zinc-400 hover:text-white pb-1 transition-all">Community & Chat</button>
+        <button id="nav-community" onclick="switchTab('community')" class="nav-link text-zinc-400 hover:text-white pb-1 transition-all">Community</button>
       </div>
       
       <div class="flex items-center gap-3">
         <button onclick="copyPortalLink('nav')" id="navShareBtn"
                 class="bg-zinc-900 border border-zinc-800 hover:border-green-500/40 text-green-400 font-bold px-4 py-2.5 rounded-xl text-sm transition-all flex items-center gap-2 active:scale-95">
           <i class="fa-solid fa-share-nodes"></i> <span id="navShareText">Share Link</span>
+        </button>
+
+        <span id="userBadge" class="hidden bg-zinc-800/80 px-4 py-2 rounded-xl text-sm border border-zinc-700 font-medium text-green-400"></span>
+        <button id="navAuthBtn" onclick="showLogin()" 
+                class="bg-gradient-to-r from-green-400 to-emerald-500 text-black font-extrabold px-6 py-2.5 rounded-xl shadow-lg shadow-green-500/10 hover:shadow-green-500/20 active:scale-95 transition-all text-sm tracking-wider uppercase">
+          Login / Sign Up
         </button>
       </div>
     </div>
@@ -80,6 +84,7 @@
     <section id="section-home" class="page-section active">
       <div class="hero-bg min-h-[85vh] relative flex items-center overflow-hidden py-12">
         <div class="absolute inset-0 cyber-grid pointer-events-none"></div>
+        <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-emerald-500/5 rounded-full blur-3xl"></div>
         
         <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center relative z-10 w-full">
           <div class="space-y-8 text-center md:text-left">
@@ -89,44 +94,53 @@
             <h1 class="text-5xl lg:text-7xl font-black leading-[1.1] heading-cyber tracking-tight text-white glow-green">
               RANX GAME<br><span class="bg-gradient-to-r from-green-400 via-emerald-400 to-teal-500 bg-clip-text text-transparent">DEVELOPERS</span>
             </h1>
-            
-            <!-- IDENTITY REGISTER INTERFACE -->
-            <div id="identityFormBox" class="bg-zinc-900/90 border border-zinc-800 p-6 rounded-2xl max-w-md mx-auto md:mx-0 space-y-4">
-              <h3 class="text-sm font-bold tracking-wider uppercase text-green-400">Set Developer Details</h3>
-              <div class="flex gap-2">
-                <input type="text" id="devUsernameInput" placeholder="Enter your display name..." 
-                       class="bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-green-500 w-full transition">
-                <button onclick="saveIdentity()" class="bg-gradient-to-r from-green-400 to-emerald-500 text-black font-black px-6 rounded-xl text-sm hover:opacity-90 active:scale-95 transition whitespace-nowrap">Save Setup</button>
-              </div>
-              <p id="identityStatus" class="text-xs text-zinc-500 font-mono">Status: Awaiting registration handle parameters.</p>
-            </div>
-
-            <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start pt-2">
-              <button onclick="switchTab('tools')" class="bg-gradient-to-r from-green-400 to-emerald-500 text-black px-8 py-4 rounded-2xl text-lg font-black tracking-wide hover:shadow-xl transition-all">
+            <p class="text-xl text-zinc-400 max-w-xl leading-relaxed">
+              Level up your build mechanics. Deploy customized environments for <span class="text-green-400 font-bold">Godot</span>, <span class="text-emerald-500 font-bold">Unreal Engine</span>, and <span class="text-emerald-300 font-bold">Unity</span> directly into your terminal stack.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+              <button onclick="switchTab('tools')" 
+                      class="bg-gradient-to-r from-green-400 to-emerald-500 text-black px-8 py-4 rounded-2xl text-lg font-black tracking-wide hover:shadow-xl hover:shadow-green-500/20 transform hover:-translate-y-1 active:translate-y-0 transition-all duration-200">
                 Get Game Engines <i class="fa-solid fa-download ml-2"></i>
               </button>
-              <button onclick="copyPortalLink('hero')" id="heroShareBtn" class="bg-zinc-900/80 border-2 border-green-500/30 backdrop-blur px-8 py-4 rounded-2xl text-lg font-black text-green-400 flex items-center justify-center gap-2 hover:border-green-400 transition-all">
+              
+              <!-- HOME SECTION SHARE LINK BUTTON -->
+              <button onclick="copyPortalLink('hero')" id="heroShareBtn" 
+                      class="bg-zinc-900/80 border-2 border-green-500/30 backdrop-blur px-8 py-4 rounded-2xl text-lg font-black hover:bg-zinc-800 hover:border-green-400 transition-all transform hover:-translate-y-1 active:translate-y-0 text-green-400 flex items-center justify-center gap-2">
                 <i class="fa-solid fa-share-nodes"></i> <span id="heroShareText">Share Portal Link</span>
               </button>
             </div>
           </div>
 
-          <!-- CLICKABLE DIAGNOSTICS LOGO -->
+          <!-- CLICKABLE RANX LOGO MODULE -->
           <div class="flex justify-center relative group">
-            <div onclick="toggleDiagnosticPanel()" class="relative transform hover:scale-105 transition-all duration-500 cursor-pointer w-full max-w-sm">
-              <div class="bg-gradient-to-br from-zinc-900 to-black border-2 border-green-500/30 rounded-3xl p-8 shadow-2xl min-h-[320px] flex flex-col justify-center items-center">
+            <div class="absolute inset-0 bg-gradient-to-br from-green-500 to-teal-600 rounded-3xl blur-2xl opacity-10 group-hover:opacity-30 transition duration-500"></div>
+            <div onclick="toggleDiagnosticPanel()" class="relative transform hover:rotate-2 hover:scale-105 transition-all duration-500 cursor-pointer w-full max-w-sm">
+              <div class="bg-gradient-to-br from-zinc-900 to-black border-2 border-green-500/30 rounded-3xl p-8 shadow-2xl relative overflow-hidden group-hover:border-green-400 min-h-[320px] flex flex-col justify-center items-center">
+                
+                <!-- Main Core Text View -->
                 <div id="coreLogoView" class="text-center space-y-2">
                   <div class="text-7xl font-black tracking-widest heading-cyber bg-gradient-to-b from-green-400 to-emerald-600 bg-clip-text text-transparent">RANX</div>
                   <div class="text-zinc-500 text-xs tracking-[0.3em] font-bold uppercase">Multi-Engine Pipeline</div>
                   <p class="text-[10px] text-green-500/60 font-mono pt-4 uppercase tracking-wider animate-pulse">[ Click to Initialize Scan ]</p>
                 </div>
+
+                <!-- Hidden Diagnostic Data Panel (Reveals on Click) -->
                 <div id="coreDiagnosticView" class="hidden w-full space-y-4 font-mono text-left text-xs bg-zinc-950 p-4 rounded-xl border border-zinc-800">
-                  <div class="flex justify-between border-b border-zinc-900 pb-1.5 text-green-400 font-bold"><span>STATUS: ACTIVE</span><span>●</span></div>
-                  <p>&gt; System Uplink: <span class="text-slate-200">Secure TLS 1.3</span></p>
-                  <p>&gt; Live Database Latency: <span class="text-emerald-400">22ms</span></p>
-                  <p>&gt; Connection Matrix: <span class="text-green-400">Cloud sa-east-1</span></p>
+                  <div class="flex justify-between border-b border-zinc-900 pb-1.5 text-green-400 font-bold">
+                    <span>STATUS: ACTIVE</span>
+                    <span class="animate-pulse">●</span>
+                  </div>
+                  <div class="space-y-1 text-zinc-400 text-[11px]">
+                    <p>&gt; Uplink: <span class="text-slate-200">Secure TLS 1.3</span></p>
+                    <p>&gt; Database Latency: <span class="text-emerald-400" id="dbLatency">24ms</span></p>
+                    <p>&gt; Engine Compiles: <span class="text-slate-200">100% Stable</span></p>
+                    <p>&gt; Traffic Metric: <span class="text-green-400" id="liveTraffic">402 nodes/m</span></p>
+                  </div>
+                  <button class="w-full text-center text-[10px] text-zinc-500 hover:text-green-400 pt-1 uppercase tracking-widest">Close Scan</button>
                 </div>
+
               </div>
+              <div class="absolute -top-5 -right-5 bg-gradient-to-r from-green-400 to-emerald-500 text-black text-3xl p-3.5 rounded-2xl shadow-xl font-bold transform -rotate-12">🎮</div>
             </div>
           </div>
         </div>
@@ -135,160 +149,261 @@
 
     <!-- 2. TUTORIALS SECTION -->
     <section id="section-tutorials" class="page-section py-16 max-w-7xl mx-auto px-6">
-      <div class="mb-12"><h2 class="text-4xl font-black heading-cyber text-green-400">ACADEMY MODULES</h2></div>
-      <div class="grid md:grid-cols-2 gap-8">
-        <div class="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 space-y-4">
-          <span class="bg-green-500/10 text-green-400 text-xs px-2.5 py-1 rounded font-bold">Godot Engine Core</span>
-          <h3 class="text-xl font-bold">GDScript Framework Flow</h3>
-          <p class="text-zinc-400 text-sm">Understand modular node pipelines and custom resource vectors directly inside the environment map.</p>
+      <div class="mb-12">
+        <h2 class="text-4xl font-black heading-cyber tracking-tight mb-2 text-green-400">ACADEMY MODULES</h2>
+        <p class="text-zinc-400">Step-by-step framework documentation tailored for production architecture.</p>
+      </div>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Godot Module -->
+        <div class="bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden hover:border-green-500/40 transition">
+          <div class="h-40 bg-gradient-to-r from-emerald-700 to-teal-950 p-6 flex items-end justify-between">
+            <span class="bg-black/60 px-3 py-1 rounded text-xs uppercase font-bold tracking-widest text-green-400">Godot 4.x</span>
+            <i class="fa-solid fa-robot text-4xl opacity-40 text-green-400"></i>
+          </div>
+          <div class="p-6 space-y-4">
+            <h3 class="text-xl font-bold">GDScript Masterclass: Signal & Node Pipelines</h3>
+            <p class="text-sm text-zinc-400">Understand modular node architecture, custom UI tracking resources, and state distribution protocols.</p>
+            <button onclick="alert('Launching Module: Godot 4.x Pipelines')" class="w-full py-2.5 bg-zinc-800 hover:bg-zinc-700 rounded-xl font-bold text-sm transition text-green-400">Start Course</button>
+          </div>
+        </div>
+        <!-- Unreal Module -->
+        <div class="bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden hover:border-green-500/40 transition">
+          <div class="h-40 bg-gradient-to-r from-green-700 to-emerald-950 p-6 flex items-end justify-between">
+            <span class="bg-black/60 px-3 py-1 rounded text-xs uppercase font-bold tracking-widest text-green-400">Unreal Engine 5</span>
+            <i class="fa-solid fa-u text-4xl opacity-40 text-green-400"></i>
+          </div>
+          <div class="p-6 space-y-4">
+            <h3 class="text-xl font-bold">C++ Gameplay Programming & Lumen Optimization</h3>
+            <p class="text-sm text-zinc-400">Examine trace vectors, custom character controller components, and performance monitoring arrays.</p>
+            <button onclick="alert('Launching Module: UE5 Core C++')" class="w-full py-2.5 bg-zinc-800 hover:bg-zinc-700 rounded-xl font-bold text-sm transition text-green-400">Start Course</button>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- 3. TOOLS SECTION -->
+    <!-- 3. TOOLS & ENGINES SECTION -->
     <section id="section-tools" class="page-section py-16 max-w-7xl mx-auto px-6">
-      <div class="mb-12"><h2 class="text-4xl font-black heading-cyber text-green-400">ENGINES & CORE ASSETS</h2></div>
-      <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-6">
-        <p class="text-zinc-400 text-sm">Download protocols directly enabled from the distribution table structure.</p>
+      <div class="mb-12">
+        <h2 class="text-4xl font-black heading-cyber tracking-tight mb-2 text-green-400">ENGINES & WORKSPACE ASSETS</h2>
+        <p class="text-zinc-400">Deploy build cores directly from the interactive array index listed below.</p>
+      </div>
+
+      <div class="flex flex-wrap gap-3 mb-8">
+        <button onclick="filterEngine('all')" id="filter-all" class="engine-filter-btn bg-green-500 text-black px-5 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition">All Frameworks</button>
+        <button onclick="filterEngine('godot')" id="filter-godot" class="engine-filter-btn bg-zinc-900 border border-zinc-800 text-zinc-300 px-5 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition">🕹️ Godot Engine</button>
+        <button onclick="filterEngine('unreal')" id="filter-unreal" class="engine-filter-btn bg-zinc-900 border border-zinc-800 text-zinc-300 px-5 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition">🔥 Unreal Engine</button>
+      </div>
+
+      <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-6 overflow-x-auto">
+        <table class="w-full text-left border-collapse min-w-[650px]">
+          <thead>
+            <tr class="border-b border-zinc-800 text-zinc-400 text-xs font-bold uppercase tracking-wider">
+              <th class="pb-4">System Core Component / Module</th>
+              <th class="pb-4">Type</th>
+              <th class="pb-4">Pipeline Integration Advantage</th>
+              <th class="pb-4 text-right">Deployment Link</th>
+            </tr>
+          </thead>
+          <tbody id="engine-table-body" class="divide-y divide-zinc-800/60 text-sm">
+            <tr class="engine-row" data-engine="godot">
+              <td class="py-4 font-bold text-white flex items-center gap-2">
+                <i class="fa-solid fa-robot text-green-400"></i> Godot Engine Stable Core (v4.x)
+              </td>
+              <td class="py-4 text-zinc-400"><span class="bg-green-500/10 text-green-400 px-2.5 py-0.5 rounded text-xs font-mono">Engine</span></td>
+              <td class="py-4 text-zinc-300">Ultra-lightweight executable distribution, open-source structural mechanics</td>
+              <td class="py-4 text-right">
+                <button onclick="triggerDownload('Godot Engine Stable Setup Binary')" class="bg-gradient-to-r from-green-400 to-emerald-500 text-black font-black px-4 py-2 rounded-xl text-xs hover:from-green-500 hover:to-emerald-600 transition shadow-md">Download Installer</button>
+              </td>
+            </tr>
+            <tr class="engine-row" data-engine="unreal">
+              <td class="py-4 font-bold text-white flex items-center gap-2">
+                <i class="fa-solid fa-u text-green-400"></i> Epic Games Launcher (Unreal Engine 5)
+              </td>
+              <td class="py-4 text-zinc-400"><span class="bg-green-500/10 text-green-400 px-2.5 py-0.5 rounded text-xs font-mono">Engine</span></td>
+              <td class="py-4 text-zinc-300">Full source compilation configuration hook, Lumen global shading blocks</td>
+              <td class="py-4 text-right">
+                <button onclick="triggerDownload('Epic Games Launcher / UE5 Framework Base')" class="bg-gradient-to-r from-green-400 to-emerald-500 text-black font-black px-4 py-2 rounded-xl text-xs hover:from-green-500 hover:to-emerald-600 transition shadow-md">Download Installer</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </section>
 
-    <!-- 4. REAL-TIME CHAT ENGINE COMMUNITY SECTION -->
-    <section id="section-community" class="page-section py-16 max-w-4xl mx-auto px-6">
-      <div class="mb-8 text-center">
-        <h2 class="text-4xl font-black heading-cyber tracking-tight text-green-400">COMMUNITY TRANSMISSION MATRIX</h2>
-        <p class="text-zinc-400 text-sm mt-1">Global real-time developer terminal channel feed.</p>
-      </div>
-
-      <!-- Main Chat UI Container -->
-      <div class="bg-zinc-900 border border-zinc-800 rounded-3xl overflow-hidden shadow-2xl flex flex-col h-[500px]">
-        <!-- Chat Message Log Box -->
-        <div id="chatMessageFlow" class="flex-grow p-6 overflow-y-auto space-y-4 bg-zinc-950 font-mono text-sm flex flex-col">
-          <div class="text-zinc-600 text-xs italic text-center py-2 border-b border-zinc-900">[ Welcome to the live chat matrix channel. Type your message below to stream globally. ]</div>
+    <!-- 4. COMMUNITY SECTION -->
+    <section id="section-community" class="page-section py-16 max-w-7xl mx-auto px-6">
+      <div class="mb-12 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div>
+          <h2 class="text-4xl font-black heading-cyber tracking-tight mb-2 text-green-400">CENTRAL NETWORK</h2>
+          <p class="text-zinc-400">Connect, trade custom engine nodes, and review code blocks alongside active users.</p>
         </div>
-        
-        <!-- Input Form Strip -->
-        <div class="p-4 bg-zinc-900 border-t border-zinc-800/80 flex gap-3">
-          <input type="text" id="chatMessageInput" placeholder="Assign developer details on home to transmit..." disabled
-                 class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-green-500 text-white transition disabled:opacity-40 disabled:cursor-not-allowed">
-          <button onclick="sendLiveMessage()" id="chatSendBtn" disabled
-                  class="bg-gradient-to-r from-green-400 to-emerald-500 text-black font-black px-6 py-3 rounded-xl text-sm transition hover:opacity-90 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-2">
-            Send <i class="fa-solid fa-paper-plane"></i>
-          </button>
+      </div>
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="bg-zinc-900 border border-zinc-800 p-6 rounded-2xl space-y-4">
+          <div class="flex justify-between items-center text-xs text-zinc-500">
+            <span class="font-mono text-green-400">#godot-4</span>
+            <span>4 mins ago</span>
+          </div>
+          <p class="text-sm font-semibold text-zinc-200">"Is it better to handle multiplayer coordinate checks on custom resources or pure global auto-loads inside Godot?"</p>
+        </div>
+        <div class="bg-zinc-900 border border-zinc-800 p-6 rounded-2xl space-y-4">
+          <div class="flex justify-between items-center text-xs text-zinc-500">
+            <span class="font-mono text-green-400">#ue5-cpp</span>
+            <span>2 hours ago</span>
+          </div>
+          <p class="text-sm font-semibold text-zinc-200">"Managed to drop garbage collection stutters down to zero by converting standard array sweeps into strict memory pointers!"</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- LIVE ADMINISTRATIVE CONTROL DATABASE MODULE -->
+    <section class="max-w-7xl mx-auto px-6 py-12 border-t border-zinc-900">
+      <div class="bg-zinc-900/60 border border-zinc-800/80 rounded-3xl p-6 lg:p-8 space-y-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-zinc-800 pb-6">
+          <div>
+            <div class="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-green-400 mb-1">
+              <span class="w-2 h-2 rounded-full bg-green-500 inline-block animate-ping"></span> Live Database Cluster
+            </div>
+            <h3 class="text-2xl font-black heading-cyber text-white">ADMIN CONTROL MATRIX</h3>
+          </div>
+          <div class="flex items-center gap-2 bg-zinc-950 px-4 py-2 rounded-xl border border-zinc-800 font-mono text-xs text-zinc-400">
+            Storage Layer: <span class="text-green-400 font-bold" id="dbSize">14.22 KB</span>
+          </div>
+        </div>
+
+        <!-- Database Activity Controls -->
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs font-semibold">
+          <div class="bg-zinc-950 p-4 rounded-xl border border-zinc-800/80 space-y-3">
+            <span class="text-zinc-500 block uppercase tracking-wider">Site Access Authorization</span>
+            <div class="flex items-center justify-between">
+              <span class="text-zinc-300" id="regStatusLabel">Open Enrollment</span>
+              <button onclick="toggleDbSetting('reg')" id="regBtn" class="bg-green-500/10 border border-green-500/30 text-green-400 px-3 py-1 rounded-lg hover:bg-green-500 hover:text-black transition">Toggle</button>
+            </div>
+          </div>
+          <div class="bg-zinc-950 p-4 rounded-xl border border-zinc-800/80 space-y-3">
+            <span class="text-zinc-500 block uppercase tracking-wider">Telemetry Engine Logs</span>
+            <div class="flex items-center justify-between">
+              <span class="text-zinc-300">Active Buffer</span>
+              <button onclick="toggleDbSetting('clear')" class="bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-zinc-300 px-3 py-1 rounded-lg transition">Flush Logs</button>
+            </div>
+          </div>
+          <div class="bg-zinc-950 p-4 rounded-xl border border-zinc-800/80 space-y-3">
+            <span class="text-zinc-500 block uppercase tracking-wider">Network Infrastructure</span>
+            <div class="flex items-center justify-between">
+              <span class="text-zinc-300">System Pipeline</span>
+              <button onclick="toggleDbSetting('stress')" class="bg-zinc-900 hover:bg-red-500/20 hover:text-red-400 border border-zinc-700 text-zinc-300 px-3 py-1 rounded-lg transition">Stress Test</button>
+            </div>
+          </div>
+          <div class="bg-zinc-950 p-4 rounded-xl border border-zinc-800/80 space-y-3">
+            <span class="text-zinc-500 block uppercase tracking-wider">Database Total Records</span>
+            <div class="flex items-center justify-between text-base font-bold text-green-400 font-mono">
+              <span id="dbRecordCount">2,140 entries</span>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
   </main>
 
+  <!-- ACCESS TERMINAL MODAL -->
+  <div id="loginModal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center z-50 p-4 transition-all duration-300">
+    <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-8 w-full max-w-md relative shadow-2xl transform scale-95 transition-all duration-300" id="modalCard">
+      <button onclick="hideLogin()" class="absolute top-6 right-6 text-zinc-500 hover:text-white text-xl p-1 bg-zinc-800/40 rounded-lg transition">✕</button>
+      <div class="text-center mb-8">
+        <h2 class="text-3xl font-black heading-cyber tracking-tight mb-2 text-green-400">ACCESS TERMINAL</h2>
+        <p class="text-zinc-400 text-sm">Synchronize with the cloud dev stack.</p>
+      </div>
+      <form onsubmit="handleLoginSubmit(event)" class="space-y-5">
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-zinc-400 mb-2">Handle / Email Address</label>
+          <input type="text" id="username" required placeholder="CyberDev_404" class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3.5 focus:outline-none focus:border-green-500 text-white transition text-sm">
+        </div>
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-zinc-400 mb-2">Security Key</label>
+          <input type="password" id="password" required placeholder="••••••••" class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3.5 focus:outline-none focus:border-green-500 text-white transition text-sm">
+        </div>
+        <button type="submit" class="w-full bg-gradient-to-r from-green-400 to-emerald-500 text-black font-black py-4 rounded-xl mt-4 transition tracking-wider text-sm uppercase">Initialize Session</button>
+      </form>
+    </div>
+  </div>
+
   <!-- FOOTER -->
-  <footer class="border-t border-zinc-900 bg-zinc-950 py-8 text-center text-xs text-zinc-600 mt-12">
-    <p>&copy; 2026 RANX Development Networks. Real-time broadcast systems online.</p>
+  <footer class="border-t border-zinc-900 bg-zinc-950 py-10 text-center text-sm text-zinc-600 mt-12">
+    <p>&copy; 2026 RANX Development Networks. All engine pipeline protocols active.</p>
   </footer>
 
-  <!-- PLATFORM LOGIC & DATABASE CORES -->
+  <!-- CORE SCRIPTS -->
   <script>
-    // ==========================================
-    // ⚠️ CRITICAL CONFIGURATION: YOUR SUPABASE PROJECT CONFIG
-    // ==========================================
-    const SUPABASE_URL = "https://icrjuhojcjxwqomgatri.supabase.co";
-    const SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY_HERE";
-    
-    let supabase = null;
-    let localUsername = "";
-
-    // Initialize Database Connections safely
-    if(SUPABASE_ANON_KEY !== "YOUR_SUPABASE_ANON_KEY_HERE") {
-      supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-      loadExistingMessages();
-      listenToRealtimeStream();
-    } else {
-      console.warn("Supabase Anon Key missing. Add your public anon key to enable live global data pipelines.");
-    }
-
-    // Save user configuration details locally
-    function saveIdentity() {
-      const usernameInput = document.getElementById('devUsernameInput').value.trim();
-      const statusText = document.getElementById('identityStatus');
-      const msgInput = document.getElementById('chatMessageInput');
-      const sendBtn = document.getElementById('chatSendBtn');
-
-      if(usernameInput === "") {
-        alert("Please specify a developer display handle.");
-        return;
-      }
-
-      localUsername = usernameInput;
-      statusText.innerHTML = `Connected as: <span class="text-green-400 font-bold">&lt;${localUsername}&gt;</span> ● Transmission active.`;
+    // SHARED CLIPBOARD LINK UTILITY
+    function copyPortalLink(origin) {
+      const currentUrl = window.location.href;
       
-      // Unlock the chat system inputs completely
-      msgInput.disabled = false;
-      sendBtn.disabled = false;
-      msgInput.placeholder = "Type your real-time log transmission here...";
-      
-      alert(`Identity saved successfully as: ${localUsername}.\nCommunity chat room unlocked!`);
+      navigator.clipboard.writeText(currentUrl).then(() => {
+        if(origin === 'nav') {
+          const text = document.getElementById('navShareText');
+          text.innerText = "Copied!";
+          setTimeout(() => text.innerText = "Share Link", 2000);
+        } else if (origin === 'hero') {
+          const text = document.getElementById('heroShareText');
+          const btn = document.getElementById('heroShareBtn');
+          text.innerText = "Portal Link Copied!";
+          btn.classList.replace('text-green-400', 'text-black');
+          btn.classList.add('bg-green-400');
+          setTimeout(() => {
+            text.innerText = "Share Portal Link";
+            btn.classList.replace('text-black', 'text-green-400');
+            btn.classList.remove('bg-green-400');
+          }, 2000);
+        }
+      });
     }
 
-    // Load static database historical records
-    async function loadExistingMessages() {
-      if(!supabase) return;
-      const { data, error } = await supabase.from('messages').select('*').order('id', { ascending: true }).limit(50);
-      if(!error && data) {
-        data.forEach(msg => appendMessageElement(msg.username, msg.message));
-        scrollChatToBottom();
-      }
-    }
+    // INTERACTIVE BRAND CARD TOGGLE (DIAGNOSTICS SCAN)
+    function toggleDiagnosticPanel() {
+      const logoView = document.getElementById('coreLogoView');
+      const diagnosticView = document.getElementById('coreDiagnosticView');
 
-    // Real-time server push subscription hook
-    function listenToRealtimeStream() {
-      if(!supabase) return;
-      supabase.channel('public:messages')
-        .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages' }, payload => {
-          appendMessageElement(payload.new.username, payload.new.message);
-          scrollChatToBottom();
-        }).subscribe();
-    }
-
-    // Transmit message data out to the network
-    async function sendLiveMessage() {
-      const msgInput = document.getElementById('chatMessageInput');
-      const currentText = msgInput.value.trim();
-
-      if(currentText === "") return;
-
-      if(supabase) {
-        // Send directly to live online database
-        const { error } = await supabase.from('messages').insert([{ username: localUsername, message: currentText }]);
-        if(error) console.error("Database connection failure context: ", error);
+      if(diagnosticView.classList.contains('hidden')) {
+        // Randomize mock database values upon initialization click
+        document.getElementById('dbLatency').innerText = Math.floor(Math.random() * (48 - 12) + 12) + "ms";
+        document.getElementById('liveTraffic').innerText = Math.floor(Math.random() * (600 - 300) + 300) + " nodes/m";
+        
+        logoView.classList.add('hidden');
+        diagnosticView.classList.remove('hidden');
       } else {
-        // Sandbox fallback mode if credentials aren't pasted yet
-        appendMessageElement(localUsername, currentText + " (Demo Sandbox Local Display Only)");
-        scrollChatToBottom();
+        diagnosticView.classList.add('hidden');
+        logoView.classList.remove('hidden');
       }
-
-      msgInput.value = ""; // Clear input strip
     }
 
-    // Inject individual message visual boxes into view
-    function appendMessageElement(user, msg) {
-      const chatFlow = document.getElementById('chatMessageFlow');
-      const bubble = document.createElement('div');
-      bubble.className = "bg-zinc-900 border border-zinc-800/60 p-3 rounded-xl max-w-xl self-start w-full transition";
-      bubble.innerHTML = `<span class="text-green-400 font-bold block text-xs tracking-wider mb-0.5">&gt; ${user}:</span> <span class="text-slate-200">${msg}</span>`;
-      chatFlow.appendChild(bubble);
+    // DATABASE PANEL CONTROLLER SWITCHES
+    let regOpen = true;
+    function toggleDbSetting(actionType) {
+      if(actionType === 'reg') {
+        regOpen = !regOpen;
+        const statusLabel = document.getElementById('regStatusLabel');
+        const btn = document.getElementById('regBtn');
+        if(!regOpen) {
+          statusLabel.innerText = "Lockdown / Frozen";
+          statusLabel.classList.add('text-red-400');
+          btn.classList.replace('text-green-400', 'text-red-400');
+        } else {
+          statusLabel.innerText = "Open Enrollment";
+          statusLabel.classList.remove('text-red-400');
+          btn.classList.replace('text-red-400', 'text-green-400');
+        }
+      } else if (actionType === 'clear') {
+        document.getElementById('dbRecordCount').innerText = "0 entries";
+        document.getElementById('dbSize').innerText = "0.00 KB";
+        alert("Database system logs cleared and truncated successfully.");
+      } else if (actionType === 'stress') {
+        alert("Simulating network packet load tests...\nAll server clusters passed framework integrity parameters.");
+        document.getElementById('dbRecordCount').innerText = "4,981 entries";
+        document.getElementById('dbSize').innerText = "38.90 KB";
+      }
     }
 
-    function scrollChatToBottom() {
-      const chatFlow = document.getElementById('chatMessageFlow');
-      chatFlow.scrollTop = chatFlow.scrollHeight;
-    }
-
-    // Handle enter-key triggers inside text inputs
-    document.getElementById('chatMessageInput').addEventListener('keydown', (e) => {
-      if (e.key === "Enter") sendLiveMessage();
-    });
-
-    // NAVIGATION CONTROLS
     function switchTab(tabId) {
       const sections = document.querySelectorAll('.page-section');
       sections.forEach(section => section.classList.remove('active'));
@@ -307,29 +422,54 @@
         targetLink.classList.remove('text-zinc-400', 'hover:text-white');
         targetLink.classList.add('text-green-400', 'border-b-2', 'border-green-400');
       }
-      if(tabId === 'community') setTimeout(scrollChatToBottom, 100);
       window.scrollTo({top: 0, behavior: 'smooth'});
     }
 
-    // Interactive Diagnostic HUD panel toggle
-    function toggleDiagnosticPanel() {
-      const logoView = document.getElementById('coreLogoView');
-      const diagView = document.getElementById('coreDiagnosticView');
-      if(diagView.classList.contains('hidden')) {
-        logoView.classList.add('hidden');
-        diagView.classList.remove('hidden');
-      } else {
-        diagView.classList.add('hidden');
-        logoView.classList.remove('hidden');
+    function filterEngine(engineType) {
+      const rows = document.querySelectorAll('.engine-row');
+      rows.forEach(row => {
+        if (engineType === 'all' || row.getAttribute('data-engine') === engineType) {
+          row.style.display = 'table-row';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+
+      const buttons = document.querySelectorAll('.engine-filter-btn');
+      buttons.forEach(btn => {
+        btn.classList.replace('bg-green-500', 'bg-zinc-900');
+        btn.classList.replace('text-black', 'text-zinc-300');
+      });
+
+      const activeBtn = document.getElementById('filter-' + engineType);
+      if (activeBtn) {
+        activeBtn.classList.replace('bg-zinc-900', 'bg-green-500');
+        activeBtn.classList.replace('text-zinc-300', 'text-black');
       }
     }
 
-    function copyPortalLink(origin) {
-      navigator.clipboard.writeText(window.location.href).then(() => {
-        const text = document.getElementById(origin === 'nav' ? 'navShareText' : 'heroShareText');
-        text.innerText = "Copied!";
-        setTimeout(() => text.innerText = origin === 'nav' ? "Share Link" : "Share Portal Link", 2000);
-      });
+    function triggerDownload(fileName) {
+      alert(`Initializing Secure Link Layer...\nPreparing Package: [ ${fileName} ]`);
+    }
+
+    function showLogin() {
+      document.getElementById('loginModal').classList.remove('hidden');
+    }
+
+    function hideLogin() {
+      document.getElementById('loginModal').add('hidden');
+    }
+
+    function handleLoginSubmit(event) {
+      event.preventDefault();
+      const username = document.getElementById('username').value;
+      if (username.trim() !== "") {
+        document.getElementById('navAuthBtn').innerText = "DISCONNECT";
+        const userBadge = document.getElementById('userBadge');
+        userBadge.innerHTML = `<span class="w-2 h-2 rounded-full bg-green-400 inline-block mr-2 animate-ping"></span>${username}`;
+        userBadge.classList.remove('hidden');
+        document.getElementById('loginModal').classList.add('hidden');
+      }
     }
   </script>
 </body>
