@@ -6,51 +6,26 @@
   <title>RANX Game Developers | Level Up</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-  <!-- Supabase CDN Link for Real-time database mechanics -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
     
-    body {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-    }
-    .heading-cyber {
-      font-family: 'Orbitron', sans-serif;
-    }
-    .hero-bg {
-      background: radial-gradient(circle at 50% 50%, #022c22 0%, #09090b 100%);
-    }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .heading-cyber { font-family: 'Orbitron', sans-serif; }
+    .hero-bg { background: radial-gradient(circle at 50% 50%, #022c22 0%, #09090b 100%); }
     .cyber-grid {
       background-image: linear-gradient(to right, rgba(34, 197, 94, 0.04) 1px, transparent 1px),
                         linear-gradient(to bottom, rgba(34, 197, 94, 0.04) 1px, transparent 1px);
       background-size: 40px 40px;
       animation: gridMove 20s linear infinite;
     }
-    @keyframes gridMove {
-      0% { background-position: 0 0; }
-      100% { background-position: 40px 40px; }
-    }
-    .glow-green {
-      text-shadow: 0 0 20px rgba(34, 197, 94, 0.6);
-    }
-    .page-section {
-      display: none;
-    }
-    .page-section.active {
-      display: block !important;
-      animation: fadeIn 0.4s ease-out forwards;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .no-scrollbar::-webkit-scrollbar {
-      display: none;
-    }
-    .no-scrollbar {
-      -ms-overflow-style: none;
-      scrollbar-width: none;
-    }
+    @keyframes gridMove { 0% { background-position: 0 0; } 100% { background-position: 40px 40px; } }
+    .glow-green { text-shadow: 0 0 20px rgba(34, 197, 94, 0.6); }
+    .page-section { display: none; }
+    .page-section.active { display: block !important; animation: fadeIn 0.4s ease-out forwards; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
   </style>
 </head>
 <body class="bg-zinc-950 text-slate-100 selection:bg-green-500 selection:text-black overflow-x-hidden min-h-screen flex flex-col justify-between">
@@ -58,7 +33,6 @@
   <!-- NAVBAR -->
   <nav class="bg-black/80 backdrop-blur-xl fixed w-full z-50 border-b border-emerald-500/20">
     <div class="max-w-7xl mx-auto px-6 py-4 flex flex-col md:flex-row justify-between items-center gap-4 md:gap-0">
-      
       <div class="flex justify-between w-full md:w-auto items-center">
         <div class="flex items-center gap-3 group cursor-pointer" onclick="switchTab('home')">
           <div class="w-11 h-11 bg-gradient-to-br from-green-400 to-emerald-600 rounded-xl flex items-center justify-center text-2xl font-black text-black shadow-lg shadow-green-500/20 transform group-hover:rotate-6 transition">R</div>
@@ -66,7 +40,6 @@
         </div>
       </div>
       
-      <!-- NAV LINKS -->
       <div class="flex overflow-x-auto w-full md:w-auto gap-6 md:gap-8 text-sm font-semibold tracking-wide uppercase no-scrollbar pb-1 md:pb-0">
         <button id="nav-home" onclick="switchTab('home')" class="nav-link whitespace-nowrap text-green-400 border-b-2 border-green-400 pb-1 transition-all">Home</button>
         <button id="nav-tutorials" onclick="switchTab('tutorials')" class="nav-link whitespace-nowrap text-zinc-400 hover:text-white pb-1 transition-all">Tutorials</button>
@@ -75,45 +48,31 @@
       </div>
       
       <div class="hidden md:flex items-center gap-3">
-        <button onclick="copyPortalLink('nav')" id="navShareBtn"
-                class="bg-zinc-900 border border-zinc-800 hover:border-green-500/40 text-green-400 font-bold px-4 py-2.5 rounded-xl text-sm transition-all flex items-center gap-2 active:scale-95">
+        <button onclick="copyPortalLink('nav')" id="navShareBtn" class="bg-zinc-900 border border-zinc-800 hover:border-green-500/40 text-green-400 font-bold px-4 py-2.5 rounded-xl text-sm transition-all flex items-center gap-2 active:scale-95">
           <i class="fa-solid fa-share-nodes"></i> <span id="navShareText">Share Link</span>
         </button>
       </div>
     </div>
   </nav>
 
-  <!-- Main Content Space -->
+  <!-- MAIN CONTENT -->
   <main class="flex-grow pt-32 md:pt-20">
     
-    <!-- 1. HOME SECTION -->
+    <!-- HOME -->
     <section id="section-home" class="page-section active">
       <div class="hero-bg min-h-[85vh] relative flex items-center overflow-hidden py-12">
         <div class="absolute inset-0 cyber-grid pointer-events-none"></div>
-        
         <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center relative z-10 w-full">
           <div class="space-y-8 text-center md:text-left">
-            <div class="inline-flex items-center gap-2 bg-green-500/10 border border-green-500/30 px-4 py-1.5 rounded-full text-green-400 font-semibold tracking-wide text-xs uppercase">
-              🚀 Next-Gen Dev Portal
-            </div>
-            <h1 class="text-5xl lg:text-7xl font-black leading-[1.1] heading-cyber tracking-tight text-white glow-green">
-              RANX GAME<br><span class="bg-gradient-to-r from-green-400 via-emerald-400 to-teal-500 bg-clip-text text-transparent">DEVELOPERS</span>
-            </h1>
-            
+            <div class="inline-flex items-center gap-2 bg-green-500/10 border border-green-500/30 px-4 py-1.5 rounded-full text-green-400 font-semibold tracking-wide text-xs uppercase">🚀 Next-Gen Dev Portal</div>
+            <h1 class="text-5xl lg:text-7xl font-black leading-[1.1] heading-cyber tracking-tight text-white glow-green">RANX GAME<br><span class="bg-gradient-to-r from-green-400 via-emerald-400 to-teal-500 bg-clip-text text-transparent">DEVELOPERS</span></h1>
             <div id="identityFormBox" class="bg-zinc-900/90 border border-zinc-800 p-6 rounded-2xl max-w-md mx-auto md:mx-0 space-y-4">
               <h3 class="text-sm font-bold tracking-wider uppercase text-green-400">Set Developer Details</h3>
               <div class="flex gap-2">
-                <input type="text" id="devUsernameInput" placeholder="Enter your display name..." 
-                       class="bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-green-500 w-full transition">
+                <input type="text" id="devUsernameInput" placeholder="Enter your display name..." class="bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-green-500 w-full transition">
                 <button onclick="saveIdentity()" class="bg-gradient-to-r from-green-400 to-emerald-500 text-black font-black px-6 rounded-xl text-sm hover:opacity-90 active:scale-95 transition whitespace-nowrap">Save Setup</button>
               </div>
               <p id="identityStatus" class="text-xs text-zinc-500 font-mono">Status: Awaiting registration handle parameters.</p>
-            </div>
-
-            <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start pt-2">
-              <button onclick="switchTab('tools')" class="bg-gradient-to-r from-green-400 to-emerald-500 text-black px-8 py-4 rounded-2xl text-lg font-black tracking-wide hover:shadow-xl transition-all">
-                Get Game Engines <i class="fa-solid fa-download ml-2"></i>
-              </button>
             </div>
           </div>
 
@@ -134,17 +93,47 @@
       </div>
     </section>
 
-    <!-- 2. TUTORIALS SECTION -->
+    <!-- TUTORIALS -->
     <section id="section-tutorials" class="page-section py-16 max-w-7xl mx-auto px-6">
       <div class="mb-12"><h2 class="text-4xl font-black heading-cyber text-green-400">ACADEMY MODULES</h2></div>
     </section>
 
-    <!-- 3. TOOLS SECTION -->
+    <!-- TOOLS & ENGINES -->
     <section id="section-tools" class="page-section py-16 max-w-7xl mx-auto px-6">
-      <div class="mb-12"><h2 class="text-4xl font-black heading-cyber text-green-400">ENGINES & CORE ASSETS</h2></div>
+      <div class="mb-12">
+        <h2 class="text-4xl font-black heading-cyber text-green-400">ENGINES & CORE ASSETS</h2>
+        <p class="text-zinc-400 mt-2">Professional-grade open-source environments for cross-platform development.</p>
+      </div>
+      
+      <!-- Advanced Engine Grid -->
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Godot -->
+        <div class="group bg-zinc-900 border border-zinc-800 hover:border-green-500/50 p-6 rounded-2xl transition-all duration-300">
+          <div class="w-12 h-12 bg-black rounded-xl flex items-center justify-center text-2xl text-green-400 mb-4 group-hover:scale-110 transition-transform"><i class="fa-solid fa-microchip"></i></div>
+          <h3 class="text-xl font-bold text-white mb-2">Godot Engine</h3>
+          <p class="text-zinc-400 text-sm mb-4">Lightweight, node-based architecture optimized for 2D and 3D indie production.</p>
+          <a href="https://godotengine.org/" target="_blank" class="text-green-400 text-xs font-bold uppercase hover:text-white transition">Initialize Download →</a>
+        </div>
+
+        <!-- Defold -->
+        <div class="group bg-zinc-900 border border-zinc-800 hover:border-green-500/50 p-6 rounded-2xl transition-all duration-300">
+          <div class="w-12 h-12 bg-black rounded-xl flex items-center justify-center text-2xl text-green-400 mb-4 group-hover:scale-110 transition-transform"><i class="fa-solid fa-cubes"></i></div>
+          <h3 class="text-xl font-bold text-white mb-2">Defold</h3>
+          <p class="text-zinc-400 text-sm mb-4">Complete Lua-based engine tailored for high-performance mobile and web deployment.</p>
+          <a href="https://defold.com/" target="_blank" class="text-green-400 text-xs font-bold uppercase hover:text-white transition">Initialize Download →</a>
+        </div>
+
+        <!-- O3DE -->
+        <div class="group bg-zinc-900 border border-zinc-800 hover:border-green-500/50 p-6 rounded-2xl transition-all duration-300">
+          <div class="w-12 h-12 bg-black rounded-xl flex items-center justify-center text-2xl text-green-400 mb-4 group-hover:scale-110 transition-transform"><i class="fa-solid fa-code-branch"></i></div>
+          <h3 class="text-xl font-bold text-white mb-2">O3DE</h3>
+          <p class="text-zinc-400 text-sm mb-4">Modular, real-time 3D development platform built for AAA cinematic fidelity.</p>
+          <a href="https://o3de.org/" target="_blank" class="text-green-400 text-xs font-bold uppercase hover:text-white transition">Initialize Download →</a>
+        </div>
+      </div>
     </section>
 
-    <!-- 4. REAL-TIME CHAT ENGINE COMMUNITY SECTION -->
+    <!-- COMMUNITY & CHAT -->
     <section id="section-community" class="page-section py-16 max-w-4xl mx-auto px-6">
       <div class="mb-8 text-center">
         <h2 class="text-4xl font-black heading-cyber tracking-tight text-green-400">COMMUNITY TRANSMISSION MATRIX</h2>
@@ -152,8 +141,7 @@
       <div class="bg-zinc-900 border border-zinc-800 rounded-3xl overflow-hidden shadow-2xl flex flex-col h-[500px]">
         <div id="chatMessageFlow" class="flex-grow p-6 overflow-y-auto space-y-4 bg-zinc-950 font-mono text-sm flex flex-col"></div>
         <div class="p-4 bg-zinc-900 border-t border-zinc-800/80 flex gap-3">
-          <input type="text" id="chatMessageInput" placeholder="Assign developer details on home to transmit..." disabled
-                 class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-green-500 text-white transition">
+          <input type="text" id="chatMessageInput" placeholder="Assign developer details on home to transmit..." disabled class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-green-500 text-white transition">
         </div>
       </div>
     </section>
@@ -163,7 +151,6 @@
     function switchTab(tabId) {
       document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
       document.getElementById('section-' + tabId).classList.add('active');
-      
       document.querySelectorAll('.nav-link').forEach(l => {
         l.classList.remove('text-green-400', 'border-b-2', 'border-green-400');
         l.classList.add('text-zinc-400');
@@ -171,7 +158,17 @@
       document.getElementById('nav-' + tabId).classList.add('text-green-400', 'border-b-2', 'border-green-400');
     }
 
-    // [Keep original identity/Supabase functions here]
+    function toggleDiagnosticPanel() {
+      const logoView = document.getElementById('coreLogoView');
+      const diagView = document.getElementById('coreDiagnosticView');
+      if(diagView.classList.contains('hidden')) {
+        logoView.classList.add('hidden');
+        diagView.classList.remove('hidden');
+      } else {
+        diagView.classList.add('hidden');
+        logoView.classList.remove('hidden');
+      }
+    }
   </script>
 </body>
 </html>
