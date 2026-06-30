@@ -6,7 +6,6 @@
   <title>RANX Game Developers | Level Up</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-  <!-- Supabase CDN Link for Real-time database mechanics -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
@@ -48,7 +47,6 @@
 </head>
 <body class="bg-zinc-950 text-slate-100 selection:bg-green-500 selection:text-black overflow-x-hidden min-h-screen flex flex-col justify-between">
 
-  <!-- NAVBAR -->
   <nav class="bg-black/80 backdrop-blur-xl fixed w-full z-50 border-b border-emerald-500/20">
     <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
       <div class="flex items-center gap-3 group cursor-pointer" onclick="switchTab('home')">
@@ -56,7 +54,6 @@
         <h1 class="text-2xl font-black tracking-wider heading-cyber bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">RANX</h1>
       </div>
       
-      <!-- NAV LINKS -->
       <div class="hidden md:flex gap-8 text-sm font-semibold tracking-wide uppercase">
         <button id="nav-home" onclick="switchTab('home')" class="nav-link text-green-400 border-b-2 border-green-400 pb-1 transition-all">Home</button>
         <button id="nav-tutorials" onclick="switchTab('tutorials')" class="nav-link text-zinc-400 hover:text-white pb-1 transition-all">Tutorials</button>
@@ -73,10 +70,8 @@
     </div>
   </nav>
 
-  <!-- Main Content Space -->
   <main class="flex-grow pt-20">
     
-    <!-- 1. HOME SECTION -->
     <section id="section-home" class="page-section active">
       <div class="hero-bg min-h-[85vh] relative flex items-center overflow-hidden py-12">
         <div class="absolute inset-0 cyber-grid pointer-events-none"></div>
@@ -90,7 +85,6 @@
               RANX GAME<br><span class="bg-gradient-to-r from-green-400 via-emerald-400 to-teal-500 bg-clip-text text-transparent">DEVELOPERS</span>
             </h1>
             
-            <!-- IDENTITY REGISTER INTERFACE -->
             <div id="identityFormBox" class="bg-zinc-900/90 border border-zinc-800 p-6 rounded-2xl max-w-md mx-auto md:mx-0 space-y-4">
               <h3 class="text-sm font-bold tracking-wider uppercase text-green-400">Set Developer Details</h3>
               <div class="flex gap-2">
@@ -111,7 +105,6 @@
             </div>
           </div>
 
-          <!-- CLICKABLE DIAGNOSTICS LOGO -->
           <div class="flex justify-center relative group">
             <div onclick="toggleDiagnosticPanel()" class="relative transform hover:scale-105 transition-all duration-500 cursor-pointer w-full max-w-sm">
               <div class="bg-gradient-to-br from-zinc-900 to-black border-2 border-green-500/30 rounded-3xl p-8 shadow-2xl min-h-[320px] flex flex-col justify-center items-center">
@@ -133,7 +126,6 @@
       </div>
     </section>
 
-    <!-- 2. TUTORIALS SECTION -->
     <section id="section-tutorials" class="page-section py-16 max-w-7xl mx-auto px-6">
       <div class="mb-12"><h2 class="text-4xl font-black heading-cyber text-green-400">ACADEMY MODULES</h2></div>
       <div class="grid md:grid-cols-2 gap-8">
@@ -145,7 +137,6 @@
       </div>
     </section>
 
-    <!-- 3. TOOLS SECTION -->
     <section id="section-tools" class="page-section py-16 max-w-7xl mx-auto px-6">
       <div class="mb-12"><h2 class="text-4xl font-black heading-cyber text-green-400">ENGINES & CORE ASSETS</h2></div>
       <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-6">
@@ -153,21 +144,17 @@
       </div>
     </section>
 
-    <!-- 4. REAL-TIME CHAT ENGINE COMMUNITY SECTION -->
     <section id="section-community" class="page-section py-16 max-w-4xl mx-auto px-6">
       <div class="mb-8 text-center">
         <h2 class="text-4xl font-black heading-cyber tracking-tight text-green-400">COMMUNITY TRANSMISSION MATRIX</h2>
         <p class="text-zinc-400 text-sm mt-1">Global real-time developer terminal channel feed.</p>
       </div>
 
-      <!-- Main Chat UI Container -->
       <div class="bg-zinc-900 border border-zinc-800 rounded-3xl overflow-hidden shadow-2xl flex flex-col h-[500px]">
-        <!-- Chat Message Log Box -->
         <div id="chatMessageFlow" class="flex-grow p-6 overflow-y-auto space-y-4 bg-zinc-950 font-mono text-sm flex flex-col">
           <div class="text-zinc-600 text-xs italic text-center py-2 border-b border-zinc-900">[ Welcome to the live chat matrix channel. Type your message below to stream globally. ]</div>
         </div>
         
-        <!-- Input Form Strip -->
         <div class="p-4 bg-zinc-900 border-t border-zinc-800/80 flex gap-3">
           <input type="text" id="chatMessageInput" placeholder="Assign developer details on home to transmit..." disabled
                  class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-green-500 text-white transition disabled:opacity-40 disabled:cursor-not-allowed">
@@ -181,12 +168,10 @@
 
   </main>
 
-  <!-- FOOTER -->
   <footer class="border-t border-zinc-900 bg-zinc-950 py-8 text-center text-xs text-zinc-600 mt-12">
     <p>&copy; 2026 RANX Development Networks. Real-time broadcast systems online.</p>
   </footer>
 
-  <!-- PLATFORM LOGIC & DATABASE CORES -->
   <script>
     // ==========================================
     // ⚠️ CRITICAL CONFIGURATION: YOUR SUPABASE PROJECT CONFIG
